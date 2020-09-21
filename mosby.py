@@ -219,5 +219,5 @@ async def leave(ctx):
     
 
 #Run The Bot
-client.run("NzU3NDY2MTgyMzkwMzgyNjg0.X2gzWg.Njk1zw_mb6nYAZ8DDlPml-2obCE")
+client.run("")
 #enter Secret key
