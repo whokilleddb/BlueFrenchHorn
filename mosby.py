@@ -43,6 +43,62 @@ Note:
 If you are a woman reading this, first, let me apologize: it was never my intention for this book to contain so much math.
 Second, I urge you to look at this document for what it is – a piece of fiction meant to entertain a broad audience though the prism if stereotypical gender differences. I mean, sometimes it really is like we’re from different planets! Clearly, no real person would actually believe or adhere to the vulgar rules contained within. *Those boots are adorable, b-t-dub.
 """,
+"""
+Article 5 : Whether he cares about sports or not, a Bro cares about sports.
+""",
+"""
+Article 6 : A Bro shall not lollygag if he must get naked in front of other Bros in a gym locker room
+COROLLARY: If a bro gets naked in a locker room, all other Bros shall pretend that nothing out of the ordinary is happening while, at the same time, immediately averting their eyes. When in doubt, remember the old adage: “If a towel drops to the floor, so should your eyes”.
+""",
+"""
+Article 7 : A Bro never admits he can’t drive, even after an accident.
+""",
+"""
+A Bro never sends a greeting card to another Bro
+There are no sentiments between Bros that cannot be articulated through the convenience and emotional distance of electronic mail. The following are a few emails for any Brocassion that succinctly get the message accross without costnig you the trouble and expense of having to find and then send an actual greeting card.
+
+EMAILS FOR ANY BROCASSION:
+
+SYMPATHY
+To: Bro
+From: Bro
+Subject: Dude
+
+Sorry, Bro.
+----------------------------------
+
+CONGRATULATIONS
+To: Bro
+From: Bro
+Subject: Bro!
+
+Nice, Bro!
+----------------------------------
+
+GET WELL SOON
+To: Bro
+From: Bro
+Subject: Bro…
+
+Don’t give up, Bro.
+----------------------------------
+
+HAPPY BIRTHDAY
+To: Bro
+From: Bro
+Subject: Dude
+
+Drinks on me, Bro.
+----------------------------------
+
+THINKING OF YOU
+To: N/A
+From: N/A
+Subject: N/A
+
+N/A
+----------------------------------
+""",
 'ARTICLE 24: "When wearing a baseball cap, a Bro may position the brim at either 12 or 6 o’clock. All other angles are reserved for rappers and the handicapped.”',
 """
 ARTICLE 100: "When pulling up to a stoplight, a Bro lowers his window so that all might enjoy his music selection."
@@ -163,5 +219,5 @@ async def leave(ctx):
     
 
 #Run The Bot
-client.run("")
+client.run("NzU3NDY2MTgyMzkwMzgyNjg0.X2gzWg.Njk1zw_mb6nYAZ8DDlPml-2obCE")
 #enter Secret key
