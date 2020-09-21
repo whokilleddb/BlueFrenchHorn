@@ -15,6 +15,8 @@ def isWord(lst,wrd):
 
 
 #Lists
+himym=["https://youtu.be/MYnhPtsRQjA", "https://youtu.be/v73s7SCWzvs","https://youtu.be/HpLsYgXpIws","https://youtu.be/xWa-QVAd7gM","https://youtu.be/zwYOXsb7FbI","https://youtu.be/UImXzJsId2w","https://youtu.be/Dcngel9VyIU","https://youtu.be/fiuu245RpwQ","https://youtu.be/8Bw5Z0rBteY","https://youtu.be/I90B8tQ9qRA","https://youtu.be/yvXIpvh9hvI","https://youtu.be/6b2AGAB2pA0"]
+
 brocode=["""Article 1 : Bro’s before ho’s
 The bond between two men is stronger than the bond between a man and a woman because, on average, men are stronger than women. That’s just science.
 """,
@@ -105,12 +107,17 @@ async def quote(context,*str):
     if str[0]=="brocode":
         await context.message.channel.send(random.choice(brocode))
 
-@client.command(name='there')
-async def there():
+@client.command(name='there',pass_context=True)
+async def there(ctx):
         if (random.randint(1,2))%2==0:
-            await context.message.channel.send("Yup")
+            await ctx.send("Yup")
         else :
-            await context.message.channel.send("Always There For You :) <@{}>".format(message.author.id))            
+            await ctx.send("Always There For You :) <@{}>".format(ctx.author.id))            
+
+@client.command(name='vids',pass_context=True)
+async def vids(ctx):
+        await ctx.send(random.choice(himym))
+   
 
 
 #Run The Bot
