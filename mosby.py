@@ -1,11 +1,23 @@
 #!/bin/python3
 import random
-import discord     
+import discord   
+import urllib.request
+import re  
 from discord.ext import commands 
-#Client
+import os
+from discord.utils import get
+
+#Client aka our Bot
 client=commands.Bot(command_prefix='--')
 
 #functions
+def searchQuery(str,num):
+    html=urllib.request.urlopen(f"https://youtube.com/results?search_query={str}")
+    video_id=re.findall(r"watch\?v=(\S{11})",html.read().decode())
+    for i in range(len(video_id)):
+        video_id[i]=f"https://www.youtube.com/watch?v={video_id[i]}"
+    print(video_id[num])
+
 def isWord(lst,wrd):
     fg=False
     for i in range(len(lst)):
@@ -48,6 +60,7 @@ daffodils=['Aah , "_If Daffodils Were A Person_ !"', "It's funny how something a
 
 
 #Functionality
+
 @client.event
 async def on_ready():
     general_channel=client.get_channel(757471535446622303)
@@ -62,8 +75,7 @@ async def on_message(message):
         getcmd=mess.split()
         if isWord(getcmd,"sad") :
             await general_channel.send("Did I just hear sad ? Wtf do you mean by that <@{}>? When I am sad , I just stop being sad and be awesome instead !".format(message.author.id))
-            await message.author.send("Bro You Okay ?\n I know we don't talk much but I love you okay ? You are important to me ! And This is not just the Bot saying :)\n Here Have A Playlist : https://spoti.fi/3kAUwcN")
-        
+            await message.author.send("Bro You Okay ?\nI know we don't talk much but I love you okay ? You are important to me ! And This is not just the Bot saying :)\n Here Have A Playlist : https://spoti.fi/3kAUwcN")     
         if isWord(getcmd,"sunflowers") or isWord(getcmd,"sunflower") :
             if (random.randint(3, 9))%3==0:
                 await message.channel.send(random.choice(sunflowers))
@@ -72,7 +84,6 @@ async def on_message(message):
             if (random.randint(3, 9))%3==0:
                 await message.channel.send(random.choice(daffodils))
         await client.process_commands(message)
-
 
 @client.event
 async def on_member_join(member):
@@ -87,7 +98,7 @@ async def on_disconnect():
         general_channel=client.get_channel(757471535446622303)
         await general_channel.send("MacLaren's Pub is now Closed ! See You Again !")
 
-
+#Bot Commands
 @client.command(name='bruh')
 async def bruh(context):
 
@@ -114,11 +125,42 @@ async def there(ctx):
         else :
             await ctx.send("Always There For You :) <@{}>".format(ctx.author.id))            
 
-@client.command(name='vids',pass_context=True)
-async def vids(ctx):
+@client.command(name='makemesad',pass_context=True)
+async def makemesad(ctx):
         await ctx.send(random.choice(himym))
-   
 
+@client.command(name="join",pass_context=True)
+async def join(ctx):
+    global voice
+    channel=ctx.message.author.voice.channel
+    voice=get(client.voice_clients, guild=ctx.guild)
+    if voice and voice.is_connected():
+        await voice.move_to(channel)
+    else:
+        voice = await channel.connect()
+    
+    await voice.disconnect()
+
+    if voice and voice.is_connected():
+        await voice.move_to(channel)
+        await ctx.send("I am in {} bitches".format(channel))
+    else:
+        voice = await channel.connect()
+        await ctx.send("I am in {} Voice bitches".format(channel))
+
+@client.command(name="leave",pass_context=True)
+async def leave(ctx):
+    global voice
+    channel=ctx.message.author.voice.channel
+    voice=get(client.voice_clients, guild=ctx.guild)
+
+    if voice and voice.is_connected():
+        await voice.disconnect()
+        await ctx.send(f"Imma Ight Head Out Of {channel} Voice")
+    else:
+        voice = await ctx.send("Bruh am not even in a Voice Channel !")
+    
+    
 
 #Run The Bot
 client.run("")
