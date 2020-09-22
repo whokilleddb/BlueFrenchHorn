@@ -126,7 +126,7 @@ async def on_message(message):
             if (random.randint(3, 9))%3==0:
                 await message.channel.send(random.choice(sunflowers))
         
-        if isWord(getcmd,"daffodils") or isWord(getcmd,"daffodil") or isWord(getcmd,"shreya") or isWord(getcmd,"bose") :
+        if isWord(getcmd,"daffodils") or isWord(getcmd,"daffodil") :
             if (random.randint(3, 9))%3==0:
                 await message.channel.send(random.choice(daffodils))
         await client.process_commands(message)
