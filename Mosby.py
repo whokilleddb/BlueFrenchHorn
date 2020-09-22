@@ -247,9 +247,6 @@ async def playsong(ctx,str1,n):
     voice.souce.volume=0.07
 
     await ctx.send(f"Playing {v_url}")
-        
-        
-    
 
 #Run The Bot
 client.run("")
