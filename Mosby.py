@@ -184,7 +184,7 @@ async def quote(context,*str):
 @client.command(name='there',pass_context=True)
 async def there(ctx):
         if (random.randint(1,2))%2==0:
-            await ctx.send("Yup")
+            await ctx.send("Yup. Suit up!")
         else :
             await ctx.send("Always There For You :) <@{}>".format(ctx.author.id))
 
