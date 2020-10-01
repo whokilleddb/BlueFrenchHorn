@@ -1,12 +1,17 @@
 #!/bin/python3
 import random
-import discord   
+import discord
 import urllib.request
-import re  
+import re
 import youtube_dl
-from discord.ext import commands 
+from discord.ext import commands
 import os
 from discord.utils import get
+
+#Globals
+TOKEN=""
+CHANNEL_ID=0000000
+
 
 #Client aka our Bot
 client=commands.Bot(command_prefix='--')
@@ -29,7 +34,6 @@ def isWord(lst,wrd):
 
 #Lists
 himym=["https://youtu.be/MYnhPtsRQjA", "https://youtu.be/v73s7SCWzvs","https://youtu.be/HpLsYgXpIws","https://youtu.be/xWa-QVAd7gM","https://youtu.be/zwYOXsb7FbI","https://youtu.be/UImXzJsId2w","https://youtu.be/Dcngel9VyIU","https://youtu.be/fiuu245RpwQ","https://youtu.be/8Bw5Z0rBteY","https://youtu.be/I90B8tQ9qRA","https://youtu.be/yvXIpvh9hvI","https://youtu.be/6b2AGAB2pA0"]
-
 
 brocode=['Article I : Bros before hoes.',
 'Article II : A bro is always entitled to do something stupid as long as the rest of his bros are all doing it.',
@@ -99,7 +103,7 @@ SIDE-BRO: HOW TO DUMP A CHICK IN SIX WORDS OR LESS
 “Your sister let me do that”
 """,
 "Article XI : A Bro may ask his Bro(s) to help him move, but only after first disclosing an honest estimate on both time commitment and number of large pieces of furniture. If the Bro has vastly underestimated either, his Bros retain the right to leave his possessions where they are – in most cases, stuck in the doorway.",
-'Article XII : Bros do not share desert.', 'Article XIII : All bros shall dub one of their bros their wingman.', 'Article XIV : If a chick inquires about a bros sexual history, a bro shall honor the ‘Brode of Silence’ and play dumb. Better to have women think all men are dumb than to tell the truth.', 'Article XV : A bro never dances with his hands above his head.', 'Article XVI : A bro should be able to at any time recite the following reigning champions: Super Bowl and World Series.', 'Article XVII : A bro shall be kind and courteous to his coworkers, unless they are beneath him on the pyramid of screaming.', 'Article XVIII : If a bro spearheads a beverage run, he is entitled to any extra money accrued after canvassing the group.', 'Article XIX : A bro shall not sleep with another bro’s sister. However, a bro shall not get angry if another bro says “dude, your sister’s hot!”. Corollary: it’s probably better for everyone if bros just hide pictures of their sister/s when other bros are coming over.', 'Article XX : A bro respects his bros in the military because they have chosen to defend the nation, but more to the point because they can kick his @/$ six ways to Sunday.', 'Article XXI : A bro never exchanges notes about an antithetical bro’s smoking hot girlfriend, even if the bro with the hot girlfriend attempts to bait the bro by saying “She’s hot, huh?”. A bro shall remain silent on the subject because, in this situation, he should be the only one bateing.', 'Article XXII : There is no law that prohibits a woman from being a bro.', 'Article XXIII : When flipping through channels with his bros, a bro is not allowed to skip past a program featuring sports.', 'Article XXIV : When wearing a baseball cap, a bro way position the brim at either twelve or six o’clock. All other angles are reserved for rappers and the handicapped. If a bro fits under either of these classifications, he is excused from this article.', 'Article XXV : A bro doesn’t let another bro get a tattoo. Including but not limited to a girls name or tramp stamp.', 'Article XXVI : Unless he has children, a bro shall not wear his cellphone on a belt clip.', 'Article XXVII : A bro never removes his shirt in front of another bro unless at a resort, pool, or beach.', 'Article XXVIII : A bro will, in a timely manner, alert his bro to the existence of a girl fight.', 'Article XXIX : If two bros decide to catch a movie together, they may not attend a screening that begins after 4:40 PM. Also, despite cost saving, they shall not share a tub of popcorn.', 'Article XXX : A bro doesn’t comparison shop.', 'Article XXXI : When on the prowl, a bro hits on the hottest girl first because you just never know.', 'Article XXXII : A bro doesn’t allow another bro to get married until he is at least 30.', 'Article XXXIII : When in a public restroom, a bro:\n1.) looks straight ahead while using the urinal,\n2.) makes the obligatory comment ‘what is this, a chick’s restroom?’ if there are more than two dudes waiting to pee, and\n3.) Attempts to basketball toss his used paper towels into the trash can (rebounding is optional).', 'Article XXXIV : Bros cannot make eye contact during a devil’s three way (two dudes).', 'Article XXXV : A bro never rents a chick flick.', 'Article XXXVI : When questioned in the company of women, a bro always decries fake breasts.', 'Article XXXVII : A bro is under no obligation to open a door for anyone.', 'Article XXXVIII : Even in a fight to the death, a bro never punches another bro in the groin.', 'Article XXXIX : When a bro gets a chick’s number, he waits at least 96 hours before calling her.', 'Article XL : Should a bro become stricken with engagement, his bros shall stage an intervention and attempt to heal him.', 'Article XLI : A bro never cries. Exceptions: watching Field of Dreams, ET, or a sports legend retire.', 'Article XLII : Upon greeting another bro, a bro may engage a high five, fist bump, or bro hug, but never a full embrace.', 'Article XLIII : A bro loves his country, unless that country isn’t America.', 'Article XLIV : A bro never applies sunscreen on another bro.', 'Article XLV : A bro never wears jeans to a strip club.', 
+'Article XII : Bros do not share desert.', 'Article XIII : All bros shall dub one of their bros their wingman.', 'Article XIV : If a chick inquires about a bros sexual history, a bro shall honor the ‘Brode of Silence’ and play dumb. Better to have women think all men are dumb than to tell the truth.', 'Article XV : A bro never dances with his hands above his head.', 'Article XVI : A bro should be able to at any time recite the following reigning champions: Super Bowl and World Series.', 'Article XVII : A bro shall be kind and courteous to his coworkers, unless they are beneath him on the pyramid of screaming.', 'Article XVIII : If a bro spearheads a beverage run, he is entitled to any extra money accrued after canvassing the group.', 'Article XIX : A bro shall not sleep with another bro’s sister. However, a bro shall not get angry if another bro says “dude, your sister’s hot!”. Corollary: it’s probably better for everyone if bros just hide pictures of their sister/s when other bros are coming over.', 'Article XX : A bro respects his bros in the military because they have chosen to defend the nation, but more to the point because they can kick his @/$ six ways to Sunday.', 'Article XXI : A bro never exchanges notes about an antithetical bro’s smoking hot girlfriend, even if the bro with the hot girlfriend attempts to bait the bro by saying “She’s hot, huh?”. A bro shall remain silent on the subject because, in this situation, he should be the only one bateing.', 'Article XXII : There is no law that prohibits a woman from being a bro.', 'Article XXIII : When flipping through channels with his bros, a bro is not allowed to skip past a program featuring sports.', 'Article XXIV : When wearing a baseball cap, a bro way position the brim at either twelve or six o’clock. All other angles are reserved for rappers and the handicapped. If a bro fits under either of these classifications, he is excused from this article.', 'Article XXV : A bro doesn’t let another bro get a tattoo. Including but not limited to a girls name or tramp stamp.', 'Article XXVI : Unless he has children, a bro shall not wear his cellphone on a belt clip.', 'Article XXVII : A bro never removes his shirt in front of another bro unless at a resort, pool, or beach.', 'Article XXVIII : A bro will, in a timely manner, alert his bro to the existence of a girl fight.', 'Article XXIX : If two bros decide to catch a movie together, they may not attend a screening that begins after 4:40 PM. Also, despite cost saving, they shall not share a tub of popcorn.', 'Article XXX : A bro doesn’t comparison shop.', 'Article XXXI : When on the prowl, a bro hits on the hottest girl first because you just never know.', 'Article XXXII : A bro doesn’t allow another bro to get married until he is at least 30.', 'Article XXXIII : When in a public restroom, a bro:\n1.) looks straight ahead while using the urinal,\n2.) makes the obligatory comment ‘what is this, a chick’s restroom?’ if there are more than two dudes waiting to pee, and\n3.) Attempts to basketball toss his used paper towels into the trash can (rebounding is optional).', 'Article XXXIV : Bros cannot make eye contact during a devil’s three way (two dudes).', 'Article XXXV : A bro never rents a chick flick.', 'Article XXXVI : When questioned in the company of women, a bro always decries fake breasts.', 'Article XXXVII : A bro is under no obligation to open a door for anyone.', 'Article XXXVIII : Even in a fight to the death, a bro never punches another bro in the groin.', 'Article XXXIX : When a bro gets a chick’s number, he waits at least 96 hours before calling her.', 'Article XL : Should a bro become stricken with engagement, his bros shall stage an intervention and attempt to heal him.', 'Article XLI : A bro never cries. Exceptions: watching Field of Dreams, ET, or a sports legend retire.', 'Article XLII : Upon greeting another bro, a bro may engage a high five, fist bump, or bro hug, but never a full embrace.', 'Article XLIII : A bro loves his country, unless that country isn’t America.', 'Article XLIV : A bro never applies sunscreen on another bro.', 'Article XLV : A bro never wears jeans to a strip club.',
 """Article XLVI : If a bro is seated next to some dude stuck in the middle seat on an airplane, he shall yield him all of their shared armrests unless the dude has:
 A) Taken his shoes off
 B) Is snoring
@@ -110,27 +114,31 @@ sunflowers=['Aah , _sunflowers_ !', "It's funny how something as delicate as Sun
 daffodils=['Aah , "_If Daffodils Were A Person_ !"', "It's funny how something as delicate as Daffodils could hurt so much :)", "Life's been such a mess of Sunflowers and Daffodils :)" ]
 
 
+playbook=['The SNASA (page 3): Barney goes up to a girl and claims he works for a secret government agency called "SNASA", or "Secret NASA", and claims to have been to the identically-named "SMoon".','The Cheap Trick (page 86): Barney claims that he is the bass player of a rock band with the ironic name of "Cheap Trick" (a real-life band).','The My Penis Grants Wishes (page 31): Dressed as a genie, Barney claims that his penis, like a magic lamp, grants wishes if one rubs it hard enough.']
+
 #Functionality
 
 @client.event
 async def on_ready():
-    general_channel=client.get_channel(757471535446622303)
-    await general_channel.send("Welcome To MacLaren's Pub ! We are now Open !")
+    general_channel=client.get_channel(CHANNEL_ID)
+    await general_channel.send("Daddy's Home !")
 
 @client.event
 async def on_message(message):
-    general_channel=client.get_channel(757471535446622303)
+    general_channel=client.get_channel(message.channel.category_id)
+    #print(message)
     mess=message.content
     if message.author != client.user :
         mess=mess.lower()
         getcmd=mess.split()
-        if isWord(getcmd,"sad") and isWord(getcmd,"feel") :
+        if mess=="who is lorenzo von matterhorn ?":
+            await general_channel.send("Lorenzo Von Matterhorn was born somewhere in Switzerland in the spring of 1974. The exact date and circumstances of his birth are unknown since he was immediately placed in a basket and tossed in a river.\nTo Know More , Read : http://www.lorenzovonmatterhorn.com")
+        if isWord(getcmd,"sad") and (isWord(getcmd,"feel") or isWord(getcmd,"feeling")) :
             await general_channel.send("Did I just hear sad ? Wtf do you mean by that <@{}>? When I am sad , I just stop being sad and be awesome instead !".format(message.author.id))
-            await message.author.send("Bro You Okay ?\nI know we don't talk much but I love you okay ? You are important to me ! And This is not just the Bot saying :)\n Here Have A Playlist : https://spoti.fi/3kAUwcN")     
+            await message.author.send("Bro You Okay ?\nI know we don't talk much but I love you okay ? You are important to me ! And This is not just the Bot saying :)\n Here Have A Playlist : https://spoti.fi/3kAUwcN")
         if isWord(getcmd,"sunflowers") or isWord(getcmd,"sunflower") :
             if (random.randint(3, 9))%3==0:
                 await message.channel.send(random.choice(sunflowers))
-        
         if isWord(getcmd,"daffodils") or isWord(getcmd,"daffodil") :
             if (random.randint(3, 9))%3==0:
                 await message.channel.send(random.choice(daffodils))
@@ -138,13 +146,13 @@ async def on_message(message):
 
 @client.event
 async def on_member_join(member):
-    general_channel=client.get_channel(757471535446622303)
+    general_channel=client.get_channel(CHANNEL_ID)
     guild=member.guild
     message ='Hello {}, Welcome to {}. We will teach you how to live. Type in : Bro Help to get help from Bro. Please adhere to the Brocode. '.format(member.mention, guild.name)
     await general_channel.send(message)
 
 """
-@client.event 
+@client.event
 async def on_disconnect():
         general_channel=client.get_channel(757471535446622303)
         await general_channel.send("MacLaren's Pub is now Closed ! See You Again !")
@@ -154,14 +162,14 @@ async def on_disconnect():
 @client.command(name='bruh')
 async def bruh(context):
 
-    my_embed= discord.Embed(title="All About Bro", description="Blue French Horn Is An Awesome Bot coded by the even more awesome @whokilleddb.\nHe likes to be called Bro.",color=0x00ff00)
+    my_embed= discord.Embed(title="All About Me", description="Lorenzo Von Matterhorn Is An Awesome Bot coded by the even more awesome @whokilleddb.\nHe likes to be called Bro.",color=0x00ff00)
     my_embed.add_field(name="Version:",value="v69.420",inline=False)
     my_embed.add_field(name="Commands:",value="bro quote brocode",inline=False)
     my_embed.set_footer(text="Suit Up !")
     my_embed.set_author(name="WhoKilledDB")
 
     await context.message.channel.send(embed=my_embed)
-    
+
 
 @client.command(name='quote')
 async def quote(context,*str):
@@ -169,13 +177,16 @@ async def quote(context,*str):
         await context.message.channel.send("Bruh")
     if str[0]=="brocode":
         await context.message.channel.send(random.choice(brocode))
+    if str[0]=="playbook":
+        await context.message.channel.send(random.choice(playbook))
+
 
 @client.command(name='there',pass_context=True)
 async def there(ctx):
         if (random.randint(1,2))%2==0:
             await ctx.send("Yup")
         else :
-            await ctx.send("Always There For You :) <@{}>".format(ctx.author.id))            
+            await ctx.send("Always There For You :) <@{}>".format(ctx.author.id))
 
 @client.command(name='makemesad',pass_context=True)
 async def makemesad(ctx):
@@ -184,13 +195,14 @@ async def makemesad(ctx):
 @client.command(name="join",pass_context=True)
 async def join(ctx):
     global voice
+    channel=""
     channel=ctx.message.author.voice.channel
     voice=get(client.voice_clients, guild=ctx.guild)
     if voice and voice.is_connected():
         await voice.move_to(channel)
     else:
         voice = await channel.connect()
-    
+
     await voice.disconnect()
 
     if voice and voice.is_connected():
@@ -203,6 +215,7 @@ async def join(ctx):
 @client.command(name="leave",pass_context=True)
 async def leave(ctx):
     global voice
+    channel=""
     channel=ctx.message.author.voice.channel
     voice=get(client.voice_clients, guild=ctx.guild)
 
@@ -224,9 +237,9 @@ async def playsong(ctx,str1,n):
         print("The Song Is On")
         await ctx.send("Bro I think the song is already playing !")
         return
-    
+
     await ctx.send("Firing That Up Now !")
-    
+
     voice = get(client.voice_clients, guild=ctx.guild)
     ydl_opts={
         'format': 'bestaudio/best',
@@ -247,7 +260,7 @@ async def playsong(ctx,str1,n):
             name=file
             print(f"Renamed File {file}")
             os.rename(file,"song.mp3")
-    
+
     voice.play(discord.FFmpegPCMAudio("song.mp3"), after=lambda e: print("Vibing"))
     voice.souce=discord.PCMVolumeTransformer(voice.source)
     voice.souce.volume=0.07
@@ -255,5 +268,5 @@ async def playsong(ctx,str1,n):
     await ctx.send(f"Playing {v_url}")
 
 #Run The Bot
-client.run("")
+client.run(TOKEN)
 #enter Secret key
